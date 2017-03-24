@@ -1,0 +1,9 @@
+{
+    "name": "gameday",
+    "version": "0.0.1",
+    "main": "index.html",
+    "scripts": {
+        "run": "nwjs .",
+        "build": "nwbuild -p osx64,win32,win64 ."
+    }
+}
