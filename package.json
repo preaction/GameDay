@@ -1,9 +1,28 @@
 {
-    "name": "gameday",
-    "version": "0.0.1",
-    "main": "index.html",
-    "scripts": {
-        "run": "nwjs .",
-        "build": "nwbuild -p osx64,win32,win64 ."
-    }
+  "name": "gameday",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "nwjs --enable-logging=stderr ./build",
+    "build": "webpack --output-path ./build",
+    "dist": "NODE_ENV=production nwbuild -p osx64,win32,win64 -o ./dist ./build"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "csv": "^1.1.1",
+    "jquery": "^3.2.1",
+    "vue": "^2.2.5",
+    "xmldoc": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-latest": "^6.24.0",
+    "css-loader": "^0.27.3",
+    "file-loader": "^0.10.1",
+    "style-loader": "^0.16.0",
+    "vue-loader": "^11.3.3",
+    "vue-template-compiler": "^2.2.5",
+    "webpack": "^2.3.1"
+  }
 }
