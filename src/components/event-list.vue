@@ -2,7 +2,7 @@
 <template>
     <div id="event-list">
         <p>
-            <button @click="create_event" class="btn btn-success">Create Event</button>
+            <button @click="show_create_event_dialog" class="btn btn-success">Create Event</button>
         </p>
         <div class="list-group">
             <div v-for="event in events" class="list-group-item">
@@ -13,12 +13,15 @@
                 <button class="btn btn-danger" @click="delete_event( event )">Delete</button>
             </div>
         </div>
+        <create-event-dialog id="create-event" @save="create_event" />
     </div>
 </template>
 
 <script>
+import CreateEventDialog from "./create-event-dialog.vue";
 export default {
     name: 'event-list',
+    components: { CreateEventDialog },
     data() {
         return {
             // XXX Read events from local storage
@@ -54,10 +57,12 @@ export default {
     },
     methods: {
 
-        create_event() {
-            // XXX Open a dialog to create a new event with a date
-            // and an imported CSV of players
-            // Save it to the local storage
+        show_create_event_dialog() {
+            $('#create-event').modal('show');
+        },
+
+        create_event( newEvent ) {
+            this.events.unshift( newEvent );
         },
 
         delete_event() {
