@@ -9,6 +9,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "csv": "^1.1.1",
+    "dexie": "^1.5.1",
     "jquery": "^3.2.1",
     "vue": "^2.2.5",
     "xmldoc": "^1.0.0"
