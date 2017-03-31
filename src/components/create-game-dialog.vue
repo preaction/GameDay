@@ -6,16 +6,16 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" @click="close" aria-label="Close"><span aria-hidden="true">x</span></button>
-                        <h4 class="modal-title">Create Event</h4>
+                        <h4 class="modal-title">Create Game</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="create-event-date">Date</label>
-                            <input v-model="date" type="text" class="form-control" id="create-event-date" placeholder="YYYY-MM-DD" />
+                            <label for="create-game-date">Date</label>
+                            <input v-model="date" type="text" class="form-control" id="create-game-date" placeholder="YYYY-MM-DD" />
                         </div>
                         <div class="form-group">
-                            <label for="create-event-players-file">Upload Players</label>
-                            <input id="create-event-players-file" type="file" @change="read_players_file" />
+                            <label for="create-game-players-file">Upload Players</label>
+                            <input id="create-game-players-file" type="file" @change="read_players_file" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -30,7 +30,7 @@
 
 <script>
 export default {
-    name: 'create-event-dialog',
+    name: 'create-game-dialog',
     data() {
         return {
             date: '',

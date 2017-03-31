@@ -3,15 +3,15 @@
     <div id="app" class="container-fluid">
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#events" @click="section = 'Events'" aria-controls="events" role="tab" data-toggle="tab">Events</a>
+                <a href="#games" @click="section = 'Games'" aria-controls="games" role="tab" data-toggle="tab">Games</a>
             </li>
             <li role="presentation">
                 <a href="#players" @click="section = 'Players'" aria-controls="players" role="tab" data-toggle="tab">Players</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="events">
-                <event-list />
+            <div role="tabpanel" class="tab-pane active" id="games">
+                <game-list />
             </div>
             <div role="tabpanel" class="tab-pane active" id="players">
                 <!--<player-list />-->
@@ -40,11 +40,11 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap-theme.css";
 import "bootstrap";
-import EventList from "./components/event-list.vue";
+import GameList from "./components/game-list.vue";
 
 export default {
     name: 'app',
-    components: { EventList },
+    components: { GameList },
     data() {
         return {
             section: "Welcome",
@@ -58,6 +58,6 @@ export default {
             document.title = this.title;
         },
     },
-    mount() { this.section = "Events" },
+    mount() { this.section = "Games" },
 }
 </script>
