@@ -12,7 +12,7 @@
     "dexie": "^1.5.1",
     "jquery": "^3.2.1",
     "vue": "^2.2.5",
-    "xmldoc": "^1.0.0"
+    "xmlbuilder": "^8.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",

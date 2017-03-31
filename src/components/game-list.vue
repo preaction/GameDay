@@ -8,7 +8,7 @@
             <div v-for="game in games" class="list-group-item">
                 <h4 class="list-group-item-heading">{{ game.date }}</h4>
                 <p>{{ game.players ? game.players.length : 0 }} players</p>
-                <label class="btn btn-default" for="export">Export</label>
+                <label class="btn btn-default" for="export">Export to WER</label>
                 <input style="display: none" id="export" type="file" :nwsaveas="'players-' + game.date + '.xml'" @change="export_game( $event.target, game )" />
                 <button class="btn btn-danger" @click="delete_game( game )">Delete</button>
             </div>
@@ -50,11 +50,16 @@ export default {
 
         export_game( el, game ) {
             console.log( "Exporting " + game.date + " to " + el.value );
-            // XXX Create XML here
-            var xml = '';
+            var builder = nw.require('xmlbuilder');
+            var xml = builder.create('game');
+            for ( let player of game.players ) {
+                let team = xml.ele( 'team' );
+                team.ele( 'name', player.name );
+                team.ele( 'dci', player.dci );
+            }
 
             var fs = nw.require( 'fs' );
-            fs.writeFile( el.value, "Hello", ( e ) => {
+            fs.writeFile( el.value, xml.end({pretty:true}), ( e ) => {
                 if ( e ) {
                     // XXX Show an error dialog instead
                     alert( e );
