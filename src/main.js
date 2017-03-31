@@ -7,5 +7,3 @@ new Vue({
     el: '#main',
     render: h => h(App)
 });
-
-console.log( 'hello world' );
