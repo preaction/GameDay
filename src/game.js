@@ -17,6 +17,10 @@ class Game {
         db.games.put( this );
     }
 
+    delete() {
+        db.games.delete( this.id );
+    }
+
     static read_all() {
         return db.games.reverse().toArray();
     }
