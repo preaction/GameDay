@@ -1,0 +1,5 @@
+Sitemap: http://preaction.github.io/GameDay/sitemap.xml
+User-Agent: *
+Disallow:
+
+
