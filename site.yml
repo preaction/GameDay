@@ -75,7 +75,7 @@ site:
     nav:
         main:
             - text: 'Download'
-              href: '/download'
+              href: 'https://github.com/preaction/GameDay/releases/latest'
 
     # deploy: This is the deploy object, used to deploy this site.
     deploy:
