@@ -4,7 +4,7 @@
   "scripts": {
     "start": "nwjs --enable-logging=stderr ./build",
     "build": "webpack --output-path ./build",
-    "dist": "NODE_ENV=production nwbuild -p osx64,win32,win64 -o ./dist ./build"
+    "dist": "NODE_ENV=production nwbuild -p osx64,win32,win64 -o ./dist ./build && ./dist/rebuild-archive.sh"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
