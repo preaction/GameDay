@@ -2,9 +2,9 @@
   "name": "gameday",
   "version": "0.0.1",
   "scripts": {
-    "start": "nwjs --enable-logging=stderr ./build",
     "build": "webpack --output-path ./build",
-    "dist": "NODE_ENV=production nwbuild -p osx64,win32,win64 -o ./dist ./build && ./dist/rebuild-archive.sh"
+    "start": "nwbuild -r -v 0.21.4 --enable-logging=stderr ./build",
+    "dist": "NODE_ENV=production nwbuild -v 0.21.4 -p osx64,win32,win64 -o ./dist ./build && ./dist/rebuild-archive.sh"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
