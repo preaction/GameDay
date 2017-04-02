@@ -5,5 +5,9 @@
   "window": {
     "width": 1024,
     "height": 500
+  },
+  "dependencies": {
+    "csv": "^1.1.1",
+    "xmlbuilder": "^8.2.2"
   }
 }
