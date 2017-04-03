@@ -13,13 +13,12 @@ class Player {
     }
 
     static find_or_create( name, dci ) {
-        db.players.get( { name: name, dci: dci } ).then(
+        return db.players.where( '[name+dci]' ).equals( [ name, dci ] ).first().then(
             ( player ) => {
                 if ( player ) {
                     return player;
                 }
-                player = new Player( name, dci );
-                player.save();
+                player = new Player( { name: name, dci: dci } );
                 return player;
             }
         );
@@ -35,7 +34,6 @@ class Player {
 
     update_seen( date ) {
         this.seen = date;
-        this.save();
     }
 
     static read_all() {

@@ -6,6 +6,7 @@
  * storage.
  */
 import db from "./db.js";
+import Player from "./player.js";
 class Game {
 
     constructor( attrs ) {
@@ -25,13 +26,17 @@ class Game {
      * Update all the players' "seen" with the date of this
      * game.
      *
+     * @return {object} Promise that resolves after the players are updated
      * @link Player/seen
      */
     update_players() {
-        db.transaction( 'rw', db.games, db.players, () => {
+        return db.transaction( 'rw', db.games, db.players, () => {
             for ( var player of this.players ) {
                 Player.find_or_create( player.name, player.dci ).then(
-                    ( player ) => player.update_seen( this.date )
+                    ( player ) => {
+                        player.update_seen( this.date );
+                        player.save();
+                    }
                 );
             }
         } );
