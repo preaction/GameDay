@@ -1,0 +1,46 @@
+
+.table-sortable thead {
+  /* Colors taken from bootstrap navbar-default */
+  background-image: -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%);
+  background-image: -o-linear-gradient(top, #fff 0%, #f8f8f8 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f8f8f8));
+  background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 5px rgba(0, 0, 0, .075);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 5px rgba(0, 0, 0, .075);
+  color: #777;
+}
+
+.table-sortable thead tr:first-child th {
+  /* Colors taken from bootstrap navbar-default */
+  border: 1px outset #e7e7e7;
+  font-weight: normal;
+}
+
+.table-sortable thead tr:first-child th.sortable {
+  position: relative;
+  cursor: pointer;
+  padding-right: 1em;
+}
+.sortable::after  {
+  /* This positioning puts the sort icon in the middle of the bottom
+   * line of text in the table cell. This still looks good when the
+   * table cell wraps
+   */
+  position: absolute;
+  right: 4px;
+  bottom: 0.8em;
+  font: normal normal normal 14px/1 "Glyphicons Halflings";
+  content: '\e150';
+}
+.sortable.sort-asc::after {
+  content: '\e156';
+}
+.sortable.sort-desc::after {
+  content: '\e155';
+}
+.sortable.sort-asc, .sortable.sort-desc {
+  /* Colors taken from bootstrap navbar-default */
+  color: #333;
+  background-color: #e7e7e7;
+}
+

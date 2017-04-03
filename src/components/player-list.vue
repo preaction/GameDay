@@ -1,20 +1,33 @@
 
 <template>
     <div id="player-list">
-        <div class="list-group">
-            <div v-for="( player, $index ) in players" class="list-group-item">
-                <h4 class="list-group-item-heading">{{ player.name }}</h4>
-                <p>DCI: {{ player.dci }}</p>
-                <p>Last seen: <time>{{ player.seen }}</time></p>
-            </div>
-        </div>
+        <table class="table table-striped table-hover table-sortable">
+            <thead>
+                <tr>
+                    <th is="th-sort" field="name">Name</th>
+                    <th is="th-sort" field="dci">DCI</th>
+                    <th is="th-sort" field="seen">Last Seen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template v-for="player in sorted( players )">
+                    <tr>
+                        <td>{{ player.name }}</td>
+                        <td>{{ player.dci }}</td>
+                        <td><time>{{ player.seen }}</time></td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
     </div>
 </template>
 
 <script>
 import Player from "../player.js";
+import sortable_table from "./mixins/sortable-table.js";
 export default {
     name: 'player-list',
+    mixins: [ sortable_table ],
     data() {
         var data = {
             players: [ ],
