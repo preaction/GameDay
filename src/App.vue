@@ -21,18 +21,17 @@
 </template>
 
 <style>
-    #app {
-        /* Give some space from the top of the window */
-        margin-top: 5px;
-    }
     #app > .nav-tabs {
-        /* Make the tab border take up the full width of the screen */
-        margin: 0 -15px;
-        padding: 0 15px;
+        /* Give some space on the top and sides of the window */
+        padding: 5px 15px 0;
+        background: white;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 1000;
     }
     .tab-content {
-        /* Add some space after the tab border */
-        margin-top: 5px;
+        /* Move out from under the nav tabs */
+        margin-top: 65px;
     }
 </style>
 
