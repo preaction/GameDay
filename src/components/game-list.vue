@@ -42,6 +42,7 @@ export default {
 
         create_game( newGame ) {
             var game = new Game( newGame );
+            game.update_players();
             game.save();
             this.games.unshift( game );
         },

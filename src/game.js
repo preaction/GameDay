@@ -21,6 +21,22 @@ class Game {
         db.games.delete( this.id );
     }
 
+    /**
+     * Update all the players' "seen" with the date of this
+     * game.
+     *
+     * @link Player/seen
+     */
+    update_players() {
+        db.transaction( 'rw', db.games, db.players, () => {
+            for ( var player of this.players ) {
+                Player.find_or_create( player.name, player.dci ).then(
+                    ( player ) => player.update_seen( this.date )
+                );
+            }
+        } );
+    }
+
     static read_all() {
         return db.games.reverse().toArray();
     }
