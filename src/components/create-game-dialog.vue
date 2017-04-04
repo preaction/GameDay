@@ -163,6 +163,9 @@ export default {
          * Closes the Bootstrap modal (this component)
          */
         close() {
+            this.csv_rows = [];
+            this.csv_fields = [];
+            this.date = '';
             $(this.$el).modal('hide');
         }
     }
