@@ -1,3 +1,15 @@
+/**
+ * @name create-game-dialog
+ *
+ * This component is a dialog box for creating a new game.
+ */
+
+/**
+ * Fired when a new game is created by the dialog
+ *
+ * @event create-game-dialog#save
+ * @type {Game}
+ */
 
 <template>
     <div class="modal fade" tabindex="-1" role="dialog">
@@ -81,6 +93,15 @@ export default {
     },
     methods: {
 
+        /**
+         * Read the players CSV file. This reads the CSV headers to
+         * allow the user to pick which fields should be mapped to the
+         * player's name and DCI number. And reads the CSV rows as an
+         * array of objects of CSV header mapped to value. Finally, it
+         * pre-selects the name field and DCI field with a guess.
+         *
+         * @param {Event} The DOM event for the file input "change"
+         */
         read_players_file( ev ) {
             var path = ev.target.value;
             var fs = nw.require( 'fs' );
@@ -107,6 +128,13 @@ export default {
 
         },
 
+        /**
+         * Returns a Bootstrap class to indicate if the row is valid or
+         * invalid. Rows are valid if the name field is filled in and if
+         * the DCI field is a number.
+         *
+         * @returns {string} Bootstrap class name ('success' or 'danger')
+         */
         csv_row_class( row ) {
             if ( row[this.name_field] && row[this.dci_field].match(/^\d+$/) ) {
                 return 'success';
@@ -114,6 +142,13 @@ export default {
             return 'danger';
         },
 
+        /**
+         * Create the new Game object, notify the opener, and close the
+         * dialog. The opener of the dialog must subscribe to the "save"
+         * event to get the new Game object.
+         *
+         * @emits create-game-dialog#save
+         */
         save() {
             var game = {
                 date: this.date,
@@ -131,6 +166,9 @@ export default {
             this.close();
         },
 
+        /**
+         * Closes the Bootstrap modal (this component)
+         */
         close() {
             $(this.$el).modal('hide');
         }
