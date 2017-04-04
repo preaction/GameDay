@@ -14,8 +14,45 @@
                             <input v-model="date" type="text" class="form-control" id="create-game-date" placeholder="YYYY-MM-DD" />
                         </div>
                         <div class="form-group">
-                            <label for="create-game-players-file">Upload Players</label>
-                            <input id="create-game-players-file" type="file" @change="read_players_file" />
+                            <label for="create-game-players-file" class="btn btn-default">Upload Players CSV</label>
+                            <input id="create-game-players-file" type="file" style="display: none" aria-hidden="true" @change="read_players_file" />
+
+                            <div v-if="csv_rows.length">
+                                <label for="csv-name-field">Name field: </label>
+                                <select v-model="name_field" id="csv-name-field" class="form-control">
+                                    <option v-for="field in csv_fields">{{ field }}</option>
+                                </select>
+                                <label for="csv-dci-field">DCI field: </label>
+                                <select v-model="dci_field" id="csv-dci-field" class="form-control">
+                                    <option v-for="field in csv_fields">{{ field }}</option>
+                                </select>
+
+                                <table class="table table-striped table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>DCI</th>
+                                            <th>Seen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template v-for="row in csv_rows">
+                                            <tr :class="csv_row_class( row )">
+                                                <td>
+                                                    <edit-field v-model="row[name_field]" />
+                                                </td>
+                                                <td>
+                                                    <edit-field v-model="row[dci_field]" />
+                                                </td>
+                                                <td :class="seen_player_class( row )">
+                                                    {{ seen_player( row ) ? "Yes" : "No" }}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -29,12 +66,17 @@
 </template>
 
 <script>
+import EditField from './edit-field.vue';
 export default {
     name: 'create-game-dialog',
+    components: { EditField },
     data() {
         return {
             date: '',
-            players: [ ],
+            csv_rows: [ ],
+            csv_fields: [ ],
+            name_field: '',
+            dci_field: '',
         }
     },
     methods: {
@@ -49,12 +91,43 @@ export default {
                     console.log( 'Read file error: ' + err );
                     return;
                 }
-                this.players = parse(data, {columns: true});
+                this.csv_rows = parse(data, {columns: true});
+                this.csv_fields = Object.keys( this.csv_rows[0] );
+                // Name and DCI are the first two questions in the form
+                this.name_field = this.csv_fields[1];
+                this.dci_field = this.csv_fields[2];
             } );
         },
 
+        seen_player_class( row ) {
+
+        },
+
+        seen_player( row ) {
+
+        },
+
+        csv_row_class( row ) {
+            if ( row[this.name_field] && row[this.dci_field].match(/^\d+$/) ) {
+                return 'success';
+            }
+            return 'danger';
+        },
+
         save() {
-            this.$emit( 'save', this );
+            var game = {
+                date: this.date,
+                players: [],
+            };
+            for ( var row of this.csv_rows ) {
+                game.players.push(
+                    {
+                        name: row[ this.name_field ],
+                        dci: row[ this.dci_field ],
+                    }
+                );
+            }
+            this.$emit( 'save', game );
             this.close();
         },
 
