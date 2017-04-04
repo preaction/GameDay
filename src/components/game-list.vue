@@ -66,11 +66,12 @@ export default {
         export_game( el, game ) {
             console.log( "Exporting " + game.date + " to " + el.value );
             var builder = nw.require('xmlbuilder');
-            var xml = builder.create('game');
+            var xml = builder.create('event', {}, {}, { headless: true });
+            xml.att( 'teamSize', 1 );
+            let teams = xml.ele( 'teams' );
             for ( let player of game.players ) {
-                let team = xml.ele( 'team' );
-                team.ele( 'name', player.name );
-                team.ele( 'dci', player.dci );
+                let team = teams.ele( 'team', { name: player.name } );
+                team.ele( 'players' ).ele( 'player', { dciNumber: player.dci } );
             }
 
             var fs = nw.require( 'fs' );
