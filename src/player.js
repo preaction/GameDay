@@ -13,7 +13,7 @@ class Player {
     }
 
     static find_or_create( name, dci ) {
-        return db.players.where( '[name+dci]' ).equals( [ name, dci ] ).first().then(
+        return Player.find( name, dci ).then(
             ( player ) => {
                 if ( player ) {
                     return player;
@@ -22,6 +22,10 @@ class Player {
                 return player;
             }
         );
+    }
+
+    static find( name, dci ) {
+        return db.players.where( '[name+dci]' ).equals( [ name, dci ] ).first();
     }
 
     save() {

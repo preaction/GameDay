@@ -56,8 +56,8 @@
                                                 <td>
                                                     <edit-field v-model="row[dci_field]" />
                                                 </td>
-                                                <td :class="seen_player_class( row )">
-                                                    {{ seen_player( row ) ? "Yes" : "No" }}
+                                                <td>
+                                                    <find-player :name="row[name_field]" :dci="row[dci_field]" />
                                                 </td>
                                             </tr>
                                         </template>
@@ -79,9 +79,10 @@
 
 <script>
 import EditField from './edit-field.vue';
+import FindPlayer from './find-player.vue';
 export default {
     name: 'create-game-dialog',
-    components: { EditField },
+    components: { EditField, FindPlayer },
     data() {
         return {
             date: '',
@@ -118,14 +119,6 @@ export default {
                 this.name_field = this.csv_fields[1];
                 this.dci_field = this.csv_fields[2];
             } );
-        },
-
-        seen_player_class( row ) {
-
-        },
-
-        seen_player( row ) {
-
         },
 
         /**
