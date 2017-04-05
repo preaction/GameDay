@@ -1,10 +1,31 @@
 
 <template>
     <span>
-        <span v-if="!editing" @dblclick="toggle_edit( true )">{{ value }}</span>
+        <span class="edit-field" v-if="!editing" @dblclick="toggle_edit( true )">{{ value }}</span>
         <input v-model="value" v-if="editing" @blur="input" @keypress.enter="input" />
     </span>
 </template>
+
+<style>
+    .edit-field {
+        position: relative;
+        min-width: 2em;
+    }
+    .edit-field:hover:not( :empty )::after {
+        position: absolute;
+        left: 100%;
+        padding-left: 4px;
+    }
+    .edit-field:hover::after, .edit-field:empty::after {
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        color: #999;
+        content: '\270f';
+        font-size: x-small;
+        line-height: 20px;
+        vertical-align: bottom;
+    }
+</style>
 
 <script>
 export default {
