@@ -45,20 +45,31 @@
                                             <th>Name</th>
                                             <th>DCI</th>
                                             <th>Seen</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4">
+                                                <button class="btn btn-default" type="button" @click="add_csv_row">
+                                                    Add Player
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
                                     <tbody>
-                                        <template v-for="row in csv_rows">
+                                        <template v-for="( row, $index ) in csv_rows">
                                             <tr :class="csv_row_class( row )">
                                                 <td>
-                                                    <edit-field v-model="row[name_field]" />
+                                                    <edit-field v-model="row[name_field]" :editing="!row[name_field]"/>
                                                 </td>
                                                 <td>
-                                                    <edit-field v-model="row[dci_field]" />
+                                                    <edit-field v-model="row[dci_field]" :editing="!row[dci_field]" />
                                                 </td>
                                                 <td>
                                                     <find-player :name="row[name_field]" :dci="row[dci_field]" />
                                                 </td>
+                                                <td><i class="glyphicon glyphicon-remove clickable" @click="delete_csv_row( $index )"></i></td>
                                             </tr>
                                         </template>
                                     </tbody>
@@ -76,6 +87,10 @@
         </form>
     </div>
 </template>
+
+<style>
+    .clickable { cursor: pointer }
+</style>
 
 <script>
 import EditField from './edit-field.vue';
@@ -133,6 +148,25 @@ export default {
                 return 'success';
             }
             return 'danger';
+        },
+
+        /**
+         * Add a new, blank row to the CSV rows
+         */
+        add_csv_row() {
+            let row = {};
+            for ( let key of this.csv_fields ) {
+                row[key] = '';
+            }
+            this.csv_rows.push( row );
+        },
+
+        /**
+         * Delete the given row from the CSV rows
+         * @param {integer} The row to delete
+         */
+        delete_csv_row( index ) {
+            this.csv_rows.splice( index, 1 );
         },
 
         /**

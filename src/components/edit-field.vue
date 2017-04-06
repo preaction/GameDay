@@ -31,11 +31,12 @@
 export default {
     name: 'edit-field',
     data() {
-        return {
-            editing: false
-        }
+        return { }
     },
     props: {
+        editing: {
+            default: false,
+        },
         value: {
             required: true,
         },
