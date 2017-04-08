@@ -12,8 +12,12 @@
             <tbody>
                 <template v-for="player in sorted( players )">
                     <tr>
-                        <td>{{ player.name }}</td>
-                        <td>{{ player.dci }}</td>
+                        <td>
+                            <edit-field v-model="player.name" @input="player.save()" />
+                        </td>
+                        <td>
+                            <edit-field v-model="player.dci" @input="player.save()" />
+                        </td>
                         <td><time>{{ player.seen }}</time></td>
                     </tr>
                 </template>
@@ -24,9 +28,11 @@
 
 <script>
 import Player from "../player.js";
+import EditField from "./edit-field.vue";
 import sortable_table from "./mixins/sortable-table.js";
 export default {
     name: 'player-list',
+    components: { EditField },
     mixins: [ sortable_table ],
     data() {
         var data = {
