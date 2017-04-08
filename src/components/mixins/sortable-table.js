@@ -68,16 +68,17 @@ export default {
     components: { th_sort },
     methods: {
         sorted( data ) {
-            var new_data = data.slice().sort( ( a, b ) => {
+            var new_data = data.map( ( o, i ) => { return { data: o, index: i } } );
+            new_data.sort( ( a, b ) => {
                 var field = this.sort.field;
                 if ( this.sort.dir == "asc" ) {
-                    return a[field] > b[field] ? 1
-                            : a[field] < b[field] ? -1
+                    return a.data[field] > b.data[field] ? 1
+                            : a.data[field] < b.data[field] ? -1
                             : 0;
                 }
                 else {
-                    return b[field] > a[field] ? 1
-                            : b[field] < a[field] ? -1
+                    return b.data[field] > a.data[field] ? 1
+                            : b.data[field] < a.data[field] ? -1
                             : 0;
                 }
             } );
