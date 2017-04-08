@@ -11,17 +11,17 @@
                 </tr>
             </thead>
             <tbody>
-                <template v-for="item in sorted( players )">
+                <template v-for="{ data: player, index } in sorted( players )">
                     <tr>
                         <td>
-                            <edit-field v-model="item.data.name" @input="item.data.save()" />
+                            <edit-field v-model="player.name" @input="player.save()" />
                         </td>
                         <td>
-                            <edit-field v-model="item.data.dci" @input="item.data.save()" />
+                            <edit-field v-model="player.dci" @input="player.save()" />
                         </td>
-                        <td><time>{{ item.data.seen }}</time></td>
+                        <td><time>{{ player.seen }}</time></td>
                         <td class="text-center">
-                            <i class="clickable glyphicon glyphicon-remove" @click="show_delete_player_dialog( item )"></i>
+                            <i class="clickable glyphicon glyphicon-remove" @click="show_delete_player_dialog( player, index )"></i>
                         </td>
                     </tr>
                 </template>
@@ -57,20 +57,20 @@ export default {
             );
         },
 
-        show_delete_player_dialog( item ) {
+        show_delete_player_dialog( player, index ) {
             this.$refs['confirm-delete-player'].$once( 'confirm',
                 ( confirmed ) => {
                     if ( confirmed ) {
-                        this.delete_player( item );
+                        this.delete_player( player, index );
                     }
                 }
             );
             $('#confirm-delete-player').modal('show');
         },
 
-        delete_player( item ) {
-            item.data.delete();
-            this.players.splice( item.index, 1 );
+        delete_player( player, index ) {
+            player.delete();
+            this.players.splice( index, 1 );
         },
 
     }
