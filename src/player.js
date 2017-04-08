@@ -10,6 +10,8 @@ class Player {
     constructor( attrs ) {
         this.name = attrs.name;
         this.dci = attrs.dci;
+        this.flagged = attrs.flagged || false;
+        this.comments = attrs.comments || '';
     }
 
     static find_or_create( name, dci ) {

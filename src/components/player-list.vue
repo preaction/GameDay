@@ -21,6 +21,7 @@
                         </td>
                         <td><time>{{ player.seen }}</time></td>
                         <td class="text-center">
+                            <i class="clickable glyphicon glyphicon-pencil" @click="show_edit_player_dialog( player, index )"></i>
                             <i class="clickable glyphicon glyphicon-remove" @click="show_delete_player_dialog( player, index )"></i>
                         </td>
                     </tr>
@@ -28,6 +29,7 @@
             </tbody>
         </table>
         <confirm-dialog ref="confirm-delete-player" id="confirm-delete-player" />
+        <edit-player-dialog v-model="editing_player" ref="edit-player-dialog" id="edit-player-dialog" />
     </div>
 </template>
 
@@ -39,14 +41,16 @@
 import Player from "../player.js";
 import EditField from "./edit-field.vue";
 import ConfirmDialog from "./confirm-dialog.vue";
+import EditPlayerDialog from "./edit-player.vue";
 import sortable_table from "./mixins/sortable-table.js";
 export default {
     name: 'player-list',
-    components: { EditField, ConfirmDialog },
+    components: { EditField, ConfirmDialog, EditPlayerDialog },
     mixins: [ sortable_table ],
     data() {
         var data = {
             players: [ ],
+            editing_player: { },
         };
         return data;
     },
@@ -55,6 +59,16 @@ export default {
             Player.read_all().then(
                 (players) => this.players = players
             );
+        },
+
+        show_edit_player_dialog( player, index ) {
+            this.editing_player = player;
+            this.$refs['edit-player-dialog'].$once( 'input',
+                ( new_player ) => {
+                    this.players.splice( index, 1, new_player );
+                },
+            );
+            $('#edit-player-dialog').modal('show');
         },
 
         show_delete_player_dialog( player, index ) {
