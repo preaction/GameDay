@@ -139,12 +139,12 @@ export default {
         /**
          * Returns a Bootstrap class to indicate if the row is valid or
          * invalid. Rows are valid if the name field is filled in and if
-         * the DCI field is a number.
+         * the DCI field is a number less than 10 digits.
          *
          * @returns {string} Bootstrap class name ('success' or 'danger')
          */
         csv_row_class( row ) {
-            if ( row[this.name_field] && row[this.dci_field].match(/^\d+$/) ) {
+            if ( row[this.name_field] && row[this.dci_field].match(/^\d+$/) && row[this.dci_field].length <= 10 ) {
                 return 'success';
             }
             return 'danger';

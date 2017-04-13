@@ -14,7 +14,7 @@
                         </div>
                         <div class="form-group">
                             <label for="player-dci">Name</label>
-                            <input v-model="player.dci" type="text" class="form-control" id="player-dci" />
+                            <input v-model="player.dci" type="text" class="form-control" id="player-dci" maxlength="10" />
                         </div>
                         <div class="form-group">
                             <label for="player-flagged">Flagged</label>
