@@ -8,8 +8,9 @@
             <div v-for="( game, $index ) in games" class="list-group-item">
                 <h4 class="list-group-item-heading">{{ game.date }}</h4>
                 <p>{{ game.players ? game.players.length : 0 }} players</p>
-                <label class="btn btn-default" for="export">Export to WER</label>
-                <input style="display: none" id="export" type="file" :nwsaveas="'players-' + game.date + '.xml'" @change="export_game( $event.target, game )" />
+                <label class="btn btn-default">Export to WER
+                    <input style="display: none" type="file" :nwsaveas="'players-' + game.date + '.xml'" @change="export_game( $event.target, game )" />
+                </label>
                 <button class="btn btn-danger" @click="show_delete_game_dialog( $index, game )">Delete</button>
             </div>
         </div>
