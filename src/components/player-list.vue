@@ -21,6 +21,7 @@
                         </td>
                         <td><time>{{ player.seen }}</time></td>
                         <td class="text-center">
+                            <player-flag :player="player" />
                             <i class="clickable glyphicon glyphicon-pencil" @click="show_edit_player_dialog( player, index )"></i>
                             <i class="clickable glyphicon glyphicon-remove" @click="show_delete_player_dialog( player, index )"></i>
                         </td>
@@ -42,10 +43,11 @@ import Player from "../player.js";
 import EditField from "./edit-field.vue";
 import ConfirmDialog from "./confirm-dialog.vue";
 import EditPlayerDialog from "./edit-player.vue";
+import PlayerFlag from "./player-flag.vue";
 import sortable_table from "./mixins/sortable-table.js";
 export default {
     name: 'player-list',
-    components: { EditField, ConfirmDialog, EditPlayerDialog },
+    components: { EditField, ConfirmDialog, EditPlayerDialog, PlayerFlag },
     mixins: [ sortable_table ],
     data() {
         var data = {
