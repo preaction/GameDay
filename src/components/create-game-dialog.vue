@@ -120,6 +120,9 @@ export default {
          */
         read_players_file( ev ) {
             var path = ev.target.value;
+            if ( !path ) {
+                return;
+            }
             var fs = nw.require( 'fs' );
 
             var parse = nw.require( 'csv-parse/lib/sync' );
@@ -133,6 +136,7 @@ export default {
                 // Name and DCI are the first two questions in the form
                 this.name_field = this.csv_fields[1];
                 this.dci_field = this.csv_fields[2];
+                ev.target.value = '';
             } );
         },
 
