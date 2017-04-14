@@ -32,11 +32,11 @@
                             <div v-if="csv_rows.length">
                                 <label for="csv-name-field">Name field: </label>
                                 <select v-model="name_field" id="csv-name-field" class="form-control">
-                                    <option v-for="field in csv_fields">{{ field }}</option>
+                                    <option v-for="( field, i ) in csv_fields" :value="i">{{ field }}</option>
                                 </select>
                                 <label for="csv-dci-field">DCI field: </label>
                                 <select v-model="dci_field" id="csv-dci-field" class="form-control">
-                                    <option v-for="field in csv_fields">{{ field }}</option>
+                                    <option v-for="( field, i ) in csv_fields" :value="i">{{ field }}</option>
                                 </select>
 
                                 <table class="table table-striped table-condensed">
@@ -103,8 +103,8 @@ export default {
             date: '',
             csv_rows: [ ],
             csv_fields: [ ],
-            name_field: '',
-            dci_field: '',
+            name_field: 0,
+            dci_field: 0,
         }
     },
     methods: {
@@ -132,11 +132,11 @@ export default {
                     return;
                 }
                 try {
-                    this.csv_rows = parse(data, {columns: true});
-                    this.csv_fields = Object.keys( this.csv_rows[0] );
+                    this.csv_rows = parse(data);
+                    this.csv_fields = this.csv_rows.shift();
                     // Name and DCI are the first two questions in the form
-                    this.name_field = this.csv_fields[1];
-                    this.dci_field = this.csv_fields[2];
+                    this.name_field = this.csv_fields.length >= 1 ? 1 : 0;
+                    this.dci_field = this.csv_fields.length >= 2 ? 2 : 0;
                 }
                 catch (err) {
                     alert( "Error parsing CSV: " + err );
