@@ -131,11 +131,16 @@ export default {
                     console.log( 'Read file error: ' + err );
                     return;
                 }
-                this.csv_rows = parse(data, {columns: true});
-                this.csv_fields = Object.keys( this.csv_rows[0] );
-                // Name and DCI are the first two questions in the form
-                this.name_field = this.csv_fields[1];
-                this.dci_field = this.csv_fields[2];
+                try {
+                    this.csv_rows = parse(data, {columns: true});
+                    this.csv_fields = Object.keys( this.csv_rows[0] );
+                    // Name and DCI are the first two questions in the form
+                    this.name_field = this.csv_fields[1];
+                    this.dci_field = this.csv_fields[2];
+                }
+                catch (err) {
+                    alert( "Error parsing CSV: " + err );
+                }
                 ev.target.value = '';
             } );
         },
