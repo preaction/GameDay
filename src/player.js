@@ -5,6 +5,7 @@
  * storage.
  */
 import db from "./db.js";
+import moment from 'moment';
 class Player {
 
     constructor( attrs ) {
@@ -39,7 +40,9 @@ class Player {
     }
 
     update_seen( date ) {
-        this.seen = date;
+        if ( !this.seen || moment( date ).isAfter( this.seen ) ) {
+            this.seen = date;
+        }
     }
 
     static read_all() {
