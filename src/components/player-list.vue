@@ -17,7 +17,7 @@
                             <edit-field v-model="player.name" @input="player.save()" />
                         </td>
                         <td>
-                            <edit-field v-model="player.dci" @input="player.save()" />
+                            <dci-field v-model="player.dci" @input="player.save()" />
                         </td>
                         <td><time>{{ player.seen }}</time></td>
                         <td class="text-center">
@@ -41,13 +41,14 @@
 <script>
 import Player from "../player.js";
 import EditField from "./edit-field.vue";
+import DciField from "./dci-field.vue";
 import ConfirmDialog from "./confirm-dialog.vue";
 import EditPlayerDialog from "./edit-player.vue";
 import PlayerFlag from "./player-flag.vue";
 import sortable_table from "./mixins/sortable-table.js";
 export default {
     name: 'player-list',
-    components: { EditField, ConfirmDialog, EditPlayerDialog, PlayerFlag },
+    components: { EditField, DciField, ConfirmDialog, EditPlayerDialog, PlayerFlag },
     mixins: [ sortable_table ],
     data() {
         var data = {

@@ -64,7 +64,7 @@
                                                     <edit-field v-model="row[name_field]" :editing="!row[name_field]"/>
                                                 </td>
                                                 <td>
-                                                    <edit-field v-model="row[dci_field]" :editing="!row[dci_field]" />
+                                                    <dci-field v-model="row[dci_field]" />
                                                 </td>
                                                 <td>
                                                     <find-player :name="row[name_field]" :dci="row[dci_field]" />
@@ -94,10 +94,11 @@
 
 <script>
 import EditField from './edit-field.vue';
+import DciField from './dci-field.vue';
 import FindPlayer from './find-player.vue';
 export default {
     name: 'create-game-dialog',
-    components: { EditField, FindPlayer },
+    components: { EditField, DciField, FindPlayer },
     data() {
         return {
             date: '',
