@@ -14,7 +14,7 @@
     .edit-field:hover:not( :empty )::after {
         position: absolute;
         left: 100%;
-        padding-left: 4px;
+        padding-left: 0.4em;
     }
     .edit-field:hover::after, .edit-field:empty::after {
         display: inline-block;

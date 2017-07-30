@@ -1,7 +1,22 @@
 
 <template>
-    <edit-field v-model="value" @input="input" @focus="show_error" :editing="!value" @mouseenter="show_error" @mouseleave="hide_error" />
+    <edit-field :class="hasError ? 'error' : ''" v-model="value" @input="input" @focus="show_error" :editing="!value" @mouseenter="show_error" @mouseleave="hide_error" />
 </template>
+
+<style>
+    .error .edit-field:hover:not( :empty )::after {
+        padding-left: 1.8em;
+    }
+    .error::after {
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        color: #999;
+        content: '\e209';
+        font-size: x-small;
+        line-height: 20px;
+        vertical-align: bottom;
+    }
+</style>
 
 <script>
 import EditField from './edit-field.vue';
@@ -12,7 +27,6 @@ export default {
         let errors = this.check( this.value );
         return {
             _errors: errors,
-            hasErrors: !!errors.length,
         };
     },
     props: {
@@ -21,6 +35,11 @@ export default {
         },
         errors: {
             default: () => [],
+        },
+    },
+    computed: {
+        hasError: function () {
+            return !!this.$data._errors.length;
         },
     },
     methods: {
