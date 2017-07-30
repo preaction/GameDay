@@ -1,8 +1,8 @@
 
 <template>
-    <span>
+    <span @mouseenter="$emit('mouseenter')" @mouseleave="$emit('mouseleave')">
         <span class="edit-field" v-if="!editing" @dblclick="toggle_edit( true )">{{ value }}</span>
-        <input v-model="value" v-if="editing" @blur="input" @keypress.enter="input" />
+        <input v-model="value" v-if="editing" @focus="$emit('focus')" @blur="input" @keypress.enter="input" />
     </span>
 </template>
 
