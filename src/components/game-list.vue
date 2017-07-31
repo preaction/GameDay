@@ -2,7 +2,7 @@
 <template>
     <div id="game-list">
         <p>
-            <button @click="show_create_game_dialog" class="btn btn-success">Create Game</button>
+            <button @click="show_new_game_tab" class="btn btn-success">Create Game</button>
         </p>
         <div class="list-group">
             <div v-for="( game, $index ) in games" class="list-group-item">
@@ -14,18 +14,16 @@
                 <button class="btn btn-danger" @click="show_delete_game_dialog( $index, game )">Delete</button>
             </div>
         </div>
-        <create-game-dialog id="create-game" @save="create_game" />
         <confirm-dialog ref="confirm-delete" id="confirm-delete" />
     </div>
 </template>
 
 <script>
 import Game from "../game.js";
-import CreateGameDialog from "./create-game-dialog.vue";
 import ConfirmDialog from "./confirm-dialog.vue";
 export default {
     name: 'game-list',
-    components: { CreateGameDialog, ConfirmDialog },
+    components: { ConfirmDialog },
     data() {
         var data = {
             games: [ ],
@@ -37,15 +35,16 @@ export default {
     },
     methods: {
 
-        show_create_game_dialog() {
-            $('#create-game').modal('show');
+        save_game( game ) {
+            // If this was a new game, add it to the list
+            if ( this.games.indexOf( game ) < 0 ) {
+                this.games.unshift( game );
+            }
         },
 
-        create_game( newGame ) {
-            var game = new Game( newGame );
-            game.update_players();
-            game.save();
-            this.games.unshift( game );
+        show_new_game_tab( ) {
+            var game = new Game();
+            this.$emit( 'edit', game );
         },
 
         show_delete_game_dialog( i, game ) {
