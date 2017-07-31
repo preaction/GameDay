@@ -2,19 +2,19 @@
 <template>
     <div id="app" class="container-fluid">
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#games" @click="change_section('Games')" aria-controls="games" role="tab" data-toggle="tab">Games</a>
-            </li>
             <li role="presentation">
                 <a href="#players" @click="change_section('Players')" aria-controls="players" role="tab" data-toggle="tab">Players</a>
             </li>
+            <li role="presentation" class="active">
+                <a href="#games" @click="change_section('Games')" aria-controls="games" role="tab" data-toggle="tab">Games</a>
+            </li>
         </ul>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="games">
-                <game-list />
-            </div>
             <div role="tabpanel" class="tab-pane" id="players">
                 <player-list ref="Players" />
+            </div>
+            <div role="tabpanel" class="tab-pane active" id="games">
+                <game-list />
             </div>
         </div>
     </div>
