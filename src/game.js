@@ -11,10 +11,15 @@ class Game {
 
     constructor( attrs={} ) {
         this.date = attrs.date || '';
-        this.players = attrs.players || [];
+        this.players = attrs.players ? attrs.players.slice() : [];
     }
 
-    save() {
+    save( attrs ) {
+        for ( var k in attrs ) {
+            if ( k != "id" && this.hasOwnProperty( k ) ) {
+                this[k] = attrs[k];
+            }
+        }
         db.games.put( this );
     }
 

@@ -14,13 +14,13 @@
 <template>
     <form @submit.prevent="save">
         <div class="buttons">
-            <button type="button" @click="close" class="btn btn-default">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" @click="close" :class="'btn ' + ( hasChanges ? 'btn-danger' : 'btn-default' )">Close</button>
+            <button type="submit" class="btn btn-primary">Save and Close</button>
         </div>
         <h2>Edit Game</h2>
         <div class="form-group">
             <label for="create-game-date">Date</label>
-            <input v-model="game.date" type="text" class="form-control" id="create-game-date" placeholder="YYYY-MM-DD" />
+            <input v-model="$data._game.date" @change="hasChanges = true" type="text" class="form-control" id="create-game-date" placeholder="YYYY-MM-DD" />
         </div>
         <div class="form-group">
             <label :for="'import-players-file' + _uid" class="btn btn-default">Upload Players CSV</label>
@@ -45,7 +45,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <template v-for="( player, $index ) in game.players">
+                    <template v-for="( player, $index ) in $data._game.players">
                         <tr :class="player_row_class( player )">
                             <td>
                                 <edit-field v-model="player.name" :editing="!player.name"/>
@@ -64,6 +64,7 @@
 
         </div>
         <import-players-dialog ref="import-players-dialog" @save="import_players" />
+        <confirm-dialog ref="confirm-close" />
     </form>
 </template>
 
@@ -74,13 +75,21 @@
 
 <script>
 import EditField from './edit-field.vue';
+import ConfirmDialog from './confirm-dialog.vue';
 import DciField from './dci-field.vue';
 import FindPlayer from './find-player.vue';
 import ImportPlayersDialog from './import-players-dialog.vue';
 import Player from '../player.js';
+import Game from '../game.js';
 export default {
     name: 'edit-game',
-    components: { EditField, DciField, FindPlayer, ImportPlayersDialog },
+    components: { EditField, ConfirmDialog, DciField, FindPlayer, ImportPlayersDialog },
+    data() {
+        return {
+            hasChanges: false,
+            _game: new Game( this.game ), // copy to stage changes
+        };
+    },
     props: {
         game: {
             required: true,
@@ -122,7 +131,8 @@ export default {
          * Save the new players from the import dialog
          */
         import_players( players ) {
-            this.game.players.push( ...players );
+            this.hasChanges = true;
+            this.$data._game.players.push( ...players );
         },
 
         /**
@@ -143,7 +153,8 @@ export default {
          * Add a new, blank player row
          */
         add_player() {
-            this.game.players.push( new Player() );
+            this.hasChanges = true;
+            this.$data._game.players.push( new Player() );
         },
 
         /**
@@ -151,7 +162,8 @@ export default {
          * @param {integer} The index of the player to delete
          */
         delete_player( index ) {
-            this.game.players.splice( index, 1 );
+            this.hasChanges = true;
+            this.$data._game.players.splice( index, 1 );
         },
 
         /**
@@ -162,16 +174,31 @@ export default {
          * @emits create-game-dialog#save
          */
         save() {
-            this.game.save();
+            this.game.save( this.$data._game );
             this.game.update_players();
+            this.hasChanges = false;
             this.$emit( 'save', this.game );
+            this.$emit( 'close' );
         },
 
         /**
          * Tell our opener to close us
          */
         close() {
-            this.$emit( 'close' );
+            if ( this.hasChanges ) {
+                let dialog = this.$refs['confirm-close'];
+                dialog.$once( 'confirm',
+                    ( confirmed ) => {
+                        if ( confirmed ) {
+                            this.$emit( 'close' );
+                        }
+                    }
+                );
+                $( dialog.$el ).modal('show');
+            }
+            else {
+                this.$emit( 'close' );
+            }
         }
     }
 }
