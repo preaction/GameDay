@@ -53,7 +53,7 @@ export default {
         },
         check( value ) {
             let errors = this.errors.slice();
-            if ( !value.match(/^\d+$/) ) {
+            if ( !value || !value.match(/^\d+$/) ) {
                 return [ 'DCI must be a number' ];
             }
             if ( value.length > 10 ) {
