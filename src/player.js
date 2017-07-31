@@ -8,7 +8,7 @@ import db from "./db.js";
 import moment from 'moment';
 class Player {
 
-    constructor( attrs ) {
+    constructor( attrs={} ) {
         this.name = attrs.name;
         this.dci = attrs.dci;
         this.flagged = attrs.flagged || false;

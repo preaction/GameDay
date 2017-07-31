@@ -9,9 +9,9 @@ import db from "./db.js";
 import Player from "./player.js";
 class Game {
 
-    constructor( attrs ) {
-        this.date = attrs.date;
-        this.players = attrs.players;
+    constructor( attrs={} ) {
+        this.date = attrs.date || '';
+        this.players = attrs.players || [];
     }
 
     save() {
