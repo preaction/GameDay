@@ -1,6 +1,6 @@
 
 <template>
-    <edit-field :class="hasError ? 'error' : ''" v-model="value" @input="input" @focus="show_error" :editing="!value" @mouseenter="show_error" @mouseleave="hide_error" />
+    <edit-field :class="entered && hasError ? 'error' : ''" v-model="value" @input="input" @focus="show_error" :editing="!value" @mouseenter="show_error" @mouseleave="hide_error" />
 </template>
 
 <style>
@@ -26,6 +26,7 @@ export default {
     data() {
         let errors = this.check( this.value );
         return {
+            entered: false,
             _errors: errors,
         };
     },
@@ -44,6 +45,7 @@ export default {
     },
     methods: {
         show_error() {
+            this.entered = true;
             if ( this.$data._errors.length > 0 ) {
                 $( this.$el ).popover( 'show' );
             }
