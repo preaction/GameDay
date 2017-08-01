@@ -54,7 +54,7 @@
                                 <dci-field v-model="player.dci" />
                             </td>
                             <td>
-                                <find-player :name="player.name" :dci="player.dci" />
+                                <find-player :dci="player.dci" />
                             </td>
                             <td><i class="glyphicon glyphicon-remove clickable" @click="delete_player( $index )"></i></td>
                         </tr>
@@ -79,7 +79,6 @@ import ConfirmDialog from './confirm-dialog.vue';
 import DciField from './dci-field.vue';
 import FindPlayer from './find-player.vue';
 import ImportPlayersDialog from './import-players-dialog.vue';
-import Player from '../player.js';
 import Game from '../game.js';
 export default {
     name: 'edit-game',
@@ -154,7 +153,7 @@ export default {
          */
         add_player() {
             this.hasChanges = true;
-            this.$data._game.players.push( new Player() );
+            this.$data._game.players.push( {} );
         },
 
         /**
@@ -174,7 +173,9 @@ export default {
          * @emits create-game-dialog#save
          */
         save() {
+            console.log( `Saving game ${this.game.id} ${this.game.date}` );
             this.game.save( this.$data._game );
+            console.log( `Updating player info from game ${this.game.id} ${this.game.date}` );
             this.game.update_players();
             this.hasChanges = false;
             this.$emit( 'save', this.game );

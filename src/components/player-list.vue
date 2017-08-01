@@ -4,7 +4,8 @@
         <table class="table table-striped table-hover table-sortable">
             <thead>
                 <tr>
-                    <th is="th-sort" field="name">Name</th>
+                    <th is="th-sort" field="firstName">First Name</th>
+                    <th is="th-sort" field="lastName">Last Name</th>
                     <th is="th-sort" field="dci">DCI</th>
                     <th is="th-sort" field="seen">Last Seen</th>
                     <th></th>
@@ -14,12 +15,15 @@
                 <template v-for="{ data: player, index } in sorted( players )">
                     <tr>
                         <td>
-                            <edit-field v-model="player.name" @input="player.save()" />
+                            <edit-field v-model="player.firstName" @input="player.save()" />
+                        </td>
+                        <td>
+                            <edit-field v-model="player.lastName" @input="player.save()" />
                         </td>
                         <td>
                             <dci-field v-model="player.dci" @input="player.save()" />
                         </td>
-                        <td><time>{{ player.seen }}</time></td>
+                        <td><time>{{ player.seenDate }}</time></td>
                         <td class="text-center">
                             <player-flag :player="player" />
                             <i class="clickable glyphicon glyphicon-pencil" @click="show_edit_player_dialog( player, index )"></i>

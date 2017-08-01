@@ -26,9 +26,6 @@ export default {
         };
     },
     props: {
-        name: {
-            required: true,
-        },
         dci: {
             required: true,
         },
@@ -39,17 +36,13 @@ export default {
          * "seen" field to a string "Yes" or "No".
          */
         update_seen() {
-            Player.find(
-                this.name,
-                this.dci
-            )
+            Player.find( this.dci )
             .then( ( player ) => {
                 this.seen = player ? "Yes" : "No";
             } );
         },
     },
     watch: {
-        name() { this.update_seen() },
         dci() { this.update_seen() },
     },
 }

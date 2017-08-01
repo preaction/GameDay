@@ -143,7 +143,7 @@ export default {
         /**
          * Create the new Player objects, notify the opener, and close the
          * dialog. The opener of the dialog must subscribe to the "save"
-         * event to get the new Player objects.
+         * event to get the new objects.
          *
          * @emits import-players-dialog#save
          */

@@ -36,10 +36,11 @@ class Game {
      */
     update_players() {
         return db.transaction( 'rw', db.games, db.players, () => {
-            for ( var player of this.players ) {
-                Player.find_or_create( player.name, player.dci ).then(
+            for ( let p of this.players ) {
+                Player.find_or_create( p.dci ).then(
                     ( player ) => {
-                        player.update_seen( this.date );
+                        console.log( `Updating player ${player}` );
+                        player.update_seen( p.name, this.date );
                         player.save();
                     }
                 );

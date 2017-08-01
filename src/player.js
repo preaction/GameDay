@@ -9,29 +9,40 @@ import moment from 'moment';
 class Player {
 
     constructor( attrs={} ) {
-        this.name = attrs.name;
+        if ( attrs.name ) {
+            this.seenNames = [ attrs.name.toLowerCase() ];
+        }
+        this.seenNames = attrs.seenNames || [];
+        let firstName, lastName;
+        if ( this.seenNames.length > 0 ) {
+            let words = this.seenNames[0].split( /\s+/ );
+            firstName = words.slice( 0, -2 ).join( " " );
+            lastName = words[ words.length - 1 ];
+        }
+        this.firstName = attrs.firstName || firstName || '';
+        this.lastName = attrs.lastName || lastName || '';
         this.dci = attrs.dci;
         this.flagged = attrs.flagged || false;
         this.comments = attrs.comments || '';
     }
 
-    static find_or_create( name, dci ) {
-        return Player.find( name, dci ).then(
+    static find_or_create( dci ) {
+        return Player.find( dci ).then(
             ( player ) => {
-                if ( player ) {
-                    return player;
-                }
-                player = new Player( { name: name, dci: dci } );
-                return player;
+                console.log( `Found player ${player} (${dci})` );
+                return player || new Player( { dci: dci } );
             }
         );
     }
 
-    static find( name, dci ) {
-        return db.players.where( '[name+dci]' ).equals( [ name, dci ] ).first();
+    static find( dci ) {
+        return db.players.where( 'dci' ).equals( dci ).first();
     }
 
     save() {
+        if ( !this.dci ) {
+            throw "DCI is required before saving";
+        }
         db.players.put( this );
     }
 
@@ -39,9 +50,19 @@ class Player {
         db.players.delete( this.id );
     }
 
-    update_seen( date ) {
-        if ( !this.seen || moment( date ).isAfter( this.seen ) ) {
-            this.seen = date;
+    update_seen( name, date ) {
+        console.log( `Updating registration: ${this.dci} ${this.firstName} ${this.lastName}. Registered as: ${name}, ${date}` );
+        let lcname = name.toLowerCase();
+        if ( this.seenNames.indexOf( lcname ) < 0 ) {
+            this.seenNames.push( lcname );
+            if ( !this.firstName || !this.lastName ) {
+                let words = name.split( /\s+/ );
+                this.firstName = this.firstName || words.slice( 0, words.length - 1 ).join( " " );
+                this.lastName = this.lastName || words[ words.length - 1 ];
+            }
+        }
+        if ( !this.seenDate || moment( date ).isAfter( this.seenDate ) ) {
+            this.seenDate = date;
         }
     }
 

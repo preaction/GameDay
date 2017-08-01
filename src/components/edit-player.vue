@@ -9,11 +9,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="player-name">Name</label>
-                            <input v-model="player.name" type="text" class="form-control" id="player-name" />
+                            <label for="player-firstName">Name</label>
+                            <input v-model="player.firstName" type="text" class="form-control" id="player-firstName" />
+                            <input v-model="player.lastName" type="text" class="form-control" id="player-lastName" />
                         </div>
                         <div class="form-group">
-                            <label for="player-dci">Name</label>
+                            <label for="player-dci">DCI</label>
                             <input v-model="player.dci" type="text" class="form-control" id="player-dci" maxlength="10" />
                         </div>
                         <div class="form-group">
@@ -66,7 +67,7 @@ export default {
     },
     watch: {
         value() {
-            console.log( `Updating value ${this.value.name} (${this.value.dci})` );
+            console.log( `Updating value ${this.value.firstName} ${this.value.lastName} (${this.value.dci})` );
             this.player = Object.assign( new Player({}), this.value );
         },
     },
